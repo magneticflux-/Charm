@@ -29,6 +29,11 @@ public class VariantBarrels extends CharmModule {
         BLOCK_ENTITY = RegistryHandler.blockEntity(ID, BarrelBlockEntity::new);
     }
 
+    @Override
+    public List<String> mixins() {
+        return Collections.singletonList("BarrelBlockEntityMixin");
+    }
+
     public static VariantBarrelBlock getRandomBarrelBlock(Random rand) {
         List<VariantBarrelBlock> values = new ArrayList<>(BARREL_BLOCKS.values());
         return values.get(rand.nextInt(values.size()));
