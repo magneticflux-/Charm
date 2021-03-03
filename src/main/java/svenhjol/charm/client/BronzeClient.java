@@ -33,14 +33,17 @@ public class BronzeClient extends CharmClientModule {
     public static SpriteIdentifier SHIELD_BASE;
     public static SpriteIdentifier SHIELD_BASE_NO_PATTERN;
 
+    private static final Identifier BASE_ID = new Identifier(Charm.MOD_ID, "entity/bronze_shield_base");
+    private static final Identifier BASE_NO_PATTERN_ID = new Identifier(Charm.MOD_ID, "entity/bronze_shield_base_nopattern");
+
     public BronzeClient(CharmModule module) {
         super(module);
     }
 
     @Override
     public void register() {
-        SHIELD_BASE = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Charm.MOD_ID, "entity/bronze_shield_base"));
-        SHIELD_BASE_NO_PATTERN = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Charm.MOD_ID, "entity/bronze_shield_base_nopattern"));
+        SHIELD_BASE = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, BASE_ID);
+        SHIELD_BASE_NO_PATTERN = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, BASE_NO_PATTERN_ID);
 
         ModelItemRenderCallback.EVENT.register(this::handleModelItemRender);
         TextureStitchCallback.EVENT.register(this::handleTextureStitch);
@@ -50,8 +53,8 @@ public class BronzeClient extends CharmClientModule {
     }
 
     private void handleTextureStitch(SpriteAtlasTexture atlas, Set<Identifier> textures) {
-        textures.add(new Identifier(Charm.MOD_ID, "entity/bronze_shield_base"));
-        textures.add(new Identifier(Charm.MOD_ID, "entity/bronze_shield_base_nopattern"));
+        textures.add(BASE_ID);
+        textures.add(BASE_NO_PATTERN_ID);
     }
 
     private boolean handleModelItemRender(BuiltinModelItemRenderer renderer, MatrixStack matrices, ItemStack stack, VertexConsumerProvider vertexConsumers, int light, int overlay) {
