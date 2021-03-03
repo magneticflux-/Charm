@@ -12,6 +12,7 @@ public class CharmTags {
     public static Tag.Identified<Block> NETHER_PORTAL_FRAMES;
     public static Tag.Identified<Block> PROVIDE_ENCHANTING_POWER;
     public static Tag.Identified<Item> CRAFTING_TABLES;
+    public static Tag.Identified<Item> SHIELDS;
 
     public static void init() {
         BARRELS = BlockTagsAccessor.invokeRegister("charm:barrels");
@@ -19,5 +20,6 @@ public class CharmTags {
         NETHER_PORTAL_FRAMES = BlockTagsAccessor.invokeRegister("charm:nether_portal_frames");
         PROVIDE_ENCHANTING_POWER = BlockTagsAccessor.invokeRegister("charm:provide_enchanting_power");
         CRAFTING_TABLES = ItemTagsAccessor.invokeRegister("charm:crafting_tables");
+        SHIELDS = ItemTagsAccessor.invokeRegister("charm:shields");
     }
 }

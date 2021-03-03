@@ -1,13 +1,15 @@
 package svenhjol.charm.module;
 
 import net.minecraft.item.ArmorItem;
+import net.minecraft.item.ShieldItem;
 import net.minecraft.item.ToolItem;
 import svenhjol.charm.Charm;
 import svenhjol.charm.base.CharmModule;
 import svenhjol.charm.base.iface.Module;
+import svenhjol.charm.client.BronzeClient;
 import svenhjol.charm.item.*;
 
-@Module(mod = Charm.MOD_ID)
+@Module(mod = Charm.MOD_ID, client = BronzeClient.class)
 public class Bronze extends CharmModule {
     public static BronzeIngot BRONZE_INGOT;
     public static ToolItem BRONZE_AXE;
@@ -19,6 +21,7 @@ public class Bronze extends CharmModule {
     public static ArmorItem BRONZE_CHESTPLATE;
     public static ArmorItem BRONZE_LEGGINGS;
     public static ArmorItem BRONZE_BOOTS;
+    public static ShieldItem BRONZE_SHIELD;
 
     @Override
     public void register() {
@@ -32,5 +35,6 @@ public class Bronze extends CharmModule {
         BRONZE_CHESTPLATE = new BronzeChestplateItem(this);
         BRONZE_LEGGINGS = new BronzeLeggingsItem(this);
         BRONZE_BOOTS = new BronzeBootsItem(this);
+        BRONZE_SHIELD = new BronzeShieldItem(this);
     }
 }
