@@ -9,7 +9,7 @@ import svenhjol.charm.base.iface.Module;
 import svenhjol.charm.client.BronzeClient;
 import svenhjol.charm.item.*;
 
-@Module(mod = Charm.MOD_ID, client = BronzeClient.class)
+@Module(mod = Charm.MOD_ID, client = BronzeClient.class, enabledByDefault = false, description = "Bronze-tier tools obtainable by upgrading iron items.")
 public class Bronze extends CharmModule {
     public static BronzeIngot BRONZE_INGOT;
     public static ToolItem BRONZE_AXE;
