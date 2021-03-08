@@ -1,9 +1,9 @@
 {
 	"textures": {
-		"3": "charm:block/gold_lantern/gold_2",
-		"5": "charm:block/gold_lantern/gold_3",
-		"6": "charm:block/gold_lantern/gold_4",
-		"7": "charm:block/gold_lantern/light"
+		"3": "charm:block/lanterns/gold_2",
+		"5": "charm:block/lanterns/gold_3",
+		"6": "charm:block/lanterns/gold_4",
+		"7": "charm:block/lanterns/light"
 	},
 	"elements": [
 		{
@@ -137,4 +137,5 @@
 			}
 		}
 	]
+
 }

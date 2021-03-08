@@ -1,11 +1,10 @@
 {
-	"credit": "Made with Blockbench",
 	"textures": {
-		"3": "charm:block/gold_lantern/gold_2",
-		"5": "charm:block/gold_lantern/gold_3",
-		"6": "charm:block/gold_lantern/gold_4",
-		"7": "charm:block/gold_lantern/light",
-		"particle": "charm:block/gold_lantern/gold_1"
+		"3": "charm:block/lanterns/gold_2",
+		"5": "charm:block/lanterns/gold_3",
+		"6": "charm:block/lanterns/gold_4",
+		"7": "charm:block/lanterns/light",
+		"particle": "charm:block/lanterns/soul_light"
 	},
 	"elements": [
 		{
@@ -130,30 +129,30 @@
 		"thirdperson_righthand": {
 			"rotation": [-113.75, 0, 0],
 			"translation": [0, 1.25, 1],
-			"scale": [-0.375, -0.375, -0.375]
+			"scale": [-0.38281, -0.34961, -0.38477]
 		},
 		"thirdperson_lefthand": {
-			"rotation": [-123.25, 59.75, 0],
-			"translation": [0, 1.75, 0.5],
+			"rotation": [-116, -266.5, 0],
+			"translation": [0, 1.25, 1],
 			"scale": [-0.375, -0.375, -0.375]
 		},
 		"firstperson_righthand": {
-			"rotation": [5.5, -9, 8.5],
-			"translation": [4, 0, 0.25],
-			"scale": [0.36875, 0.4, 0.34727]
+			"rotation": [0, -7.75, -174.75],
+			"translation": [3.5, 0.75, 0],
+			"scale": [-0.55859, -0.42383, -0.50391]
 		},
 		"firstperson_lefthand": {
-			"rotation": [19.25, -20.75, 0],
-			"translation": [1, -1.5, 1],
-			"scale": [0.26523, 0.4, 0.16563]
+			"rotation": [13.25, -15, 198],
+			"translation": [1.75, 1.75, 1.25],
+			"scale": [-0.35898, -0.4, -0.2711]
 		},
 		"ground": {
 			"translation": [0, 3, 0],
 			"scale": [0.25, 0.25, 0.25]
 		},
 		"gui": {
-			"rotation": [-152, -135, 0],
-			"translation": [0, 2.25, 0],
+			"rotation": [-168.25, -151.75, 0],
+			"translation": [0, 3.25, 0],
 			"scale": [-1.0918, -1.09375, -1.0918]
 		},
 		"fixed": {
