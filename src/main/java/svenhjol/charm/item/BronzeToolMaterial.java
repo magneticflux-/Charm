@@ -9,7 +9,7 @@ public class BronzeToolMaterial implements ToolMaterial {
 
     @Override
     public int getDurability() {
-        return 675;
+        return 625;
     }
 
     @Override
