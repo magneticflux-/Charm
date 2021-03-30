@@ -7,6 +7,7 @@ import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.FilledMapItem;
 import net.minecraft.item.ItemStack;
@@ -48,7 +49,6 @@ import static svenhjol.charm.screenhandler.AtlasInventory.MapInfo;
 public class AtlasScreen extends AbstractCharmContainerScreen<AtlasContainer> {
     private static final Identifier CONTAINER_BACKGROUND = new Identifier(Charm.MOD_ID, "textures/gui/atlas_container.png");
     private static final RenderLayer MAP_DECORATIONS = RenderLayer.getText(new Identifier("textures/map/map_icons.png"));
-    private static final RenderLayer LINES = RenderLayer.of("lines", VertexFormats.POSITION_COLOR, VertexFormat.DrawMode.LINES, 256, RenderLayer.MultiPhaseParameters.builder().build(false));
     private static final int SIZE = 48;
     private static final int LEFT = 74;
     private static final int TOP = 16;
@@ -66,11 +66,13 @@ public class AtlasScreen extends AbstractCharmContainerScreen<AtlasContainer> {
     private MapGui mapGui;
     private int lastSize;
     private final MapRenderer mapItemRenderer;
+    private final PlayerEntity player;
 
     public AtlasScreen(AtlasContainer screenContainer, PlayerInventory inv, Text titleIn) {
         super(screenContainer, inv, titleIn, CONTAINER_BACKGROUND);
         this.backgroundWidth = 175;
         this.backgroundHeight = 168;
+        this.player = inv.player;
         AtlasInventory atlasInventory = screenContainer.getAtlasInventory();
         this.slot = inv.getSlotWithStack(atlasInventory.getAtlasItem());
         Map<Index, MapInfo> mapInfos = atlasInventory.getCurrentDimensionMapInfos(MinecraftClient.getInstance().world);
@@ -105,9 +107,9 @@ public class AtlasScreen extends AbstractCharmContainerScreen<AtlasContainer> {
 
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        super.render(matrices, mouseX, mouseY, delta);
         updateGui();
         updateButtonState();
-        super.render(matrices, mouseX, mouseY, delta);
     }
 
     @Override
@@ -300,7 +302,7 @@ public class AtlasScreen extends AbstractCharmContainerScreen<AtlasContainer> {
             mapDistance = fixedMapDistance ? Math.min(mapDistance, maxMapDistance) : maxMapDistance;
             if (mapDistance < maxMapDistance || mapDistance == MAX_MAPS) {
                 if (corner == null) {
-                    corner = inventory.getIndexOf(playerInventory.player).minus(mapDistance / 2).clamp(extremes.min, extremes.max.plus(1 - mapDistance));
+                    corner = inventory.getIndexOf(player).minus(mapDistance / 2).clamp(extremes.min, extremes.max.plus(1 - mapDistance));
                 }
             } else {
                 corner = null;
@@ -320,7 +322,7 @@ public class AtlasScreen extends AbstractCharmContainerScreen<AtlasContainer> {
             Index currentMin = corner != null ? corner : extremes.min;
             AtlasInventory inventory = handler.getAtlasInventory();
             Map<Index, MapInfo> mapInfos = inventory.getCurrentDimensionMapInfos(MinecraftClient.getInstance().world);
-            Index playerIndex = inventory.getIndexOf(playerInventory.player);
+            Index playerIndex = inventory.getIndexOf(player);
             for (Map.Entry<Index, MapInfo> mapInfo : mapInfos.entrySet()) {
                 Index key = mapInfo.getKey();
                 if (corner != null && (corner.x > key.x || key.x >= corner.x + mapDistance || corner.y > key.y || key.y >= corner.y + mapDistance)) {
@@ -340,53 +342,23 @@ public class AtlasScreen extends AbstractCharmContainerScreen<AtlasContainer> {
                     matrices.pop();
                 }
             }
-            drawLines(matrices, bufferSource.getBuffer(LINES));
+            drawLines(matrices);
         }
 
-        private void drawLines(MatrixStack matrices, VertexConsumer builder) {
+        private void drawLines(MatrixStack matrices) {
             matrices.push();
             matrices.translate(0, 0, 0.2);
-            //need to revert the base scale to avoid some lines being to thin to be drawn
+            // need to revert the base scale to avoid some lines being to thin to be drawn
             matrices.scale(0.5f / BASE_SCALE, 0.5f / BASE_SCALE, 1);
+
+
             for (int xLine = 1; xLine < mapDistance; ++xLine) {
-                vLine(matrices, builder, xLine * 2 * SIZE / mapDistance, 0, 2 * SIZE, -1);
+                drawVerticalLine(matrices, xLine * 2 * SIZE / mapDistance, 0, 2 * SIZE, -1);
             }
             for (int yLine = 1; yLine < mapDistance; ++yLine) {
-                hLine(matrices, builder, 0, 2 * SIZE, yLine * 2 * SIZE / mapDistance, -1);
+                drawHorizontalLine(matrices, 0, 2 * SIZE, yLine * 2 * SIZE / mapDistance, -1);
             }
             matrices.pop();
-        }
-
-        private void hLine(MatrixStack matrixStack, VertexConsumer builder, int minX, int maxX, int y, int color) {
-            fill(matrixStack, builder, minX, y, maxX + 1, y + 1, color);
-        }
-
-        private void vLine(MatrixStack matrixStack, VertexConsumer builder, int x, int minY, int maxY, int color) {
-            fill(matrixStack, builder, x, minY + 1, x + 1, maxY, color);
-        }
-
-        private void fill(MatrixStack matrices, VertexConsumer builder, int minX, int minY, int maxX, int maxY, int color) {
-            if (minX < maxX) {
-                int i = minX;
-                minX = maxX;
-                maxX = i;
-            }
-
-            if (minY < maxY) {
-                int j = minY;
-                minY = maxY;
-                maxY = j;
-            }
-
-            float f3 = (float) (color >> 24 & 255) / 255.0F;
-            float f = (float) (color >> 16 & 255) / 255.0F;
-            float f1 = (float) (color >> 8 & 255) / 255.0F;
-            float f2 = (float) (color & 255) / 255.0F;
-            Matrix4f matrix = matrices.peek().getModel();
-            builder.vertex(matrix, (float) minX, (float) maxY, 0.0F).color(f, f1, f2, f3).next();
-            builder.vertex(matrix, (float) maxX, (float) maxY, 0.0F).color(f, f1, f2, f3).next();
-            builder.vertex(matrix, (float) maxX, (float) minY, 0.0F).color(f, f1, f2, f3).next();
-            builder.vertex(matrix, (float) minX, (float) minY, 0.0F).color(f, f1, f2, f3).next();
         }
 
         @Override
@@ -394,7 +366,7 @@ public class AtlasScreen extends AbstractCharmContainerScreen<AtlasContainer> {
             double normX = normalizeForMapArea(LEFT + x, mouseX);
             double normY = normalizeForMapArea(TOP + y, mouseY);
             if (button == 0 && 0 <= normX && normX < 1 && 0 <= normY && normY < 1) {
-                ItemStack heldItem = playerInventory.getCursorStack();
+                ItemStack heldItem = handler.getCursorStack();
                 if (!heldItem.isEmpty()) {
                     sendAtlasTransfer(slot, -1, -1, Atlas.MoveMode.FROM_HAND);
                 } else {
@@ -548,7 +520,7 @@ public class AtlasScreen extends AbstractCharmContainerScreen<AtlasContainer> {
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
             if (button == 0 && x + LEFT <= mouseX && mouseX < x + LEFT + SIZE && y + TOP <= mouseY && mouseY < y + TOP + SIZE) {
-                ItemStack heldItem = playerInventory.getCursorStack();
+                ItemStack heldItem = handler.getCursorStack();
                 if (!heldItem.isEmpty()) {
                     sendAtlasTransfer(slot, -1, -1, Atlas.MoveMode.FROM_HAND);
                 } else if (mapInfo != null) {
