@@ -5,8 +5,8 @@ import net.minecraft.item.ItemGroup;
 import svenhjol.charm.base.CharmModule;
 import svenhjol.charm.base.item.CharmItem;
 
-public class BronzeIngot extends CharmItem {
-    public BronzeIngot(CharmModule module) {
-        super(module, "bronze_ingot", (new Item.Settings()).group(ItemGroup.MATERIALS));
+public class TinScrapItem extends CharmItem {
+    public TinScrapItem(CharmModule module) {
+        super(module, "tin_scrap", (new Item.Settings()).group(ItemGroup.MATERIALS));
     }
 }
