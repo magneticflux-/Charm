@@ -6,12 +6,12 @@ import net.minecraft.item.ShieldItem;
 import svenhjol.charm.base.CharmModule;
 import svenhjol.charm.base.item.ICharmItem;
 
-public class BronzeShieldItem extends ShieldItem implements ICharmItem {
+public class ReinforcedShieldItem extends ShieldItem implements ICharmItem {
     private final CharmModule module;
 
-    public BronzeShieldItem(CharmModule module) {
+    public ReinforcedShieldItem(CharmModule module) {
         super((new Item.Settings()).maxDamage(990).group(ItemGroup.COMBAT));
-        this.register(module, "bronze_shield");
+        this.register(module, "reinforced_shield");
         this.module = module;
     }
 

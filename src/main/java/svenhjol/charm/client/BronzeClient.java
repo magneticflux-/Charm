@@ -33,8 +33,8 @@ public class BronzeClient extends CharmClientModule {
     public static SpriteIdentifier SHIELD_BASE;
     public static SpriteIdentifier SHIELD_BASE_NO_PATTERN;
 
-    private static final Identifier BASE_ID = new Identifier(Charm.MOD_ID, "entity/bronze_shield_base");
-    private static final Identifier BASE_NO_PATTERN_ID = new Identifier(Charm.MOD_ID, "entity/bronze_shield_base_nopattern");
+    private static final Identifier BASE_ID = new Identifier(Charm.MOD_ID, "entity/reinforced_shield_base");
+    private static final Identifier BASE_NO_PATTERN_ID = new Identifier(Charm.MOD_ID, "entity/reinforced_shield_base_nopattern");
 
     public BronzeClient(CharmModule module) {
         super(module);
@@ -58,7 +58,7 @@ public class BronzeClient extends CharmClientModule {
     }
 
     private boolean handleModelItemRender(BuiltinModelItemRenderer renderer, MatrixStack matrices, ItemStack stack, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-        if (stack.isOf(Bronze.BRONZE_SHIELD)) {
+        if (stack.isOf(Bronze.REINFORCED_SHIELD)) {
             boolean bl = stack.getSubTag("BlockEntityTag") != null;
             matrices.push();
             matrices.scale(1.0F, -1.0F, -1.0F);
