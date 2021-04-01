@@ -4,7 +4,6 @@ import net.fabricmc.fabric.api.loot.v1.FabricLootPoolBuilder;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplierBuilder;
 import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
 import net.minecraft.item.Items;
-import net.minecraft.item.ShieldItem;
 import net.minecraft.loot.LootManager;
 import net.minecraft.loot.LootTables;
 import net.minecraft.loot.condition.LootCondition;
@@ -17,26 +16,22 @@ import svenhjol.charm.Charm;
 import svenhjol.charm.base.CharmModule;
 import svenhjol.charm.base.handler.RegistryHandler;
 import svenhjol.charm.base.iface.Module;
-import svenhjol.charm.client.BronzeClient;
 import svenhjol.charm.item.BronzeIngotItem;
-import svenhjol.charm.item.ReinforcedShieldItem;
 import svenhjol.charm.item.TinScrapItem;
 import svenhjol.charm.loot.TinScrapLootFunction;
 
-@Module(mod = Charm.MOD_ID, client = BronzeClient.class, description = "Bronze tier tools and decoration.")
+@Module(mod = Charm.MOD_ID, description = "Bronze tools and decoration.")
 public class Bronze extends CharmModule {
     public static final Identifier TIN_SCRAP_LOOT_ID = new Identifier(Charm.MOD_ID, "tin_scrap");
     public static LootFunctionType TIN_SCRAP_LOOT_FUNCTION;
 
     public static TinScrapItem TIN_SCRAP;
     public static BronzeIngotItem BRONZE_INGOT;
-    public static ShieldItem REINFORCED_SHIELD;
 
     @Override
     public void register() {
         TIN_SCRAP = new TinScrapItem(this);
         BRONZE_INGOT = new BronzeIngotItem(this);
-        REINFORCED_SHIELD = new ReinforcedShieldItem(this);
         TIN_SCRAP_LOOT_FUNCTION = RegistryHandler.lootFunctionType(TIN_SCRAP_LOOT_ID, new LootFunctionType(new TinScrapLootFunction.Serializer()));
     }
 

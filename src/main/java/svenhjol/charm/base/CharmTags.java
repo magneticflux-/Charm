@@ -20,6 +20,6 @@ public class CharmTags {
         NETHER_PORTAL_FRAMES = BlockTagsAccessor.invokeRegister("charm:nether_portal_frames");
         PROVIDE_ENCHANTING_POWER = BlockTagsAccessor.invokeRegister("charm:provide_enchanting_power");
         CRAFTING_TABLES = ItemTagsAccessor.invokeRegister("charm:crafting_tables");
-        SHIELDS = ItemTagsAccessor.invokeRegister("charm:shields");
+        SHIELDS = ItemTagsAccessor.invokeRegister("c:shields");
     }
 }
