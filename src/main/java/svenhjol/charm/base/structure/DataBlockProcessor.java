@@ -321,7 +321,7 @@ public class DataBlockProcessor extends StructureProcessor {
                 if (random.nextBoolean()) {
                     state = Lanterns.GOLD_LANTERN.getDefaultState();
                 } else {
-                    state = Lanterns.COPPER_LANTERN.getDefaultState();
+                    state = Lanterns.BRONZE_LANTERN.getDefaultState();
                 }
             }
 
