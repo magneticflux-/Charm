@@ -1,10 +1,10 @@
 {
+	"credit": "Made with Blockbench",
 	"textures": {
 		"3": "charm:block/lanterns/gold_2",
-		"4": "charm:block/lanterns/soul_light",
 		"5": "charm:block/lanterns/gold_3",
 		"6": "charm:block/lanterns/gold_4",
-		"particle": "charm:block/lanterns/soul_light"
+		"8": "charm:block/lantern/soul_light"
 	},
 	"elements": [
 		{
@@ -116,12 +116,12 @@
 			"to": [10.5, 9, 10.5],
 			"rotation": {"angle": 0, "axis": "y", "origin": [15, 10, 13]},
 			"faces": {
-				"north": {"uv": [6, 4, 11, 11], "texture": "#4", "tintindex": 0},
-				"east": {"uv": [6, 4, 11, 11], "texture": "#4", "tintindex": 0},
-				"south": {"uv": [6, 4, 11, 11], "texture": "#4", "tintindex": 0},
-				"west": {"uv": [6, 4, 11, 11], "texture": "#4", "tintindex": 0},
-				"up": {"uv": [10, 1, 15, 6], "texture": "#4"},
-				"down": {"uv": [1, 11, 6, 16], "texture": "#4"}
+				"north": {"uv": [6, 4, 11, 11], "texture": "#8", "tintindex": 0},
+				"east": {"uv": [6, 4, 11, 11], "texture": "#8", "tintindex": 0},
+				"south": {"uv": [6, 4, 11, 11], "texture": "#8", "tintindex": 0},
+				"west": {"uv": [6, 4, 11, 11], "texture": "#8", "tintindex": 0},
+				"up": {"uv": [10, 1, 15, 6], "texture": "#8"},
+				"down": {"uv": [1, 11, 6, 16], "texture": "#8"}
 			}
 		}
 	],

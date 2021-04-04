@@ -1,10 +1,11 @@
 {
+	"credit": "Made with Blockbench",
 	"textures": {
 		"3": "charm:block/lanterns/gold_2",
-		"4": "charm:block/lanterns/soul_light",
+		"4": "charm:block/lantern/soul_light",
 		"5": "charm:block/lanterns/gold_3",
 		"6": "charm:block/lanterns/gold_4",
-		"particle": "charm:block/lanterns/soul_light"
+		"particle": "charm:block/lantern/soul_light"
 	},
 	"elements": [
 		{
