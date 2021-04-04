@@ -15,7 +15,7 @@ public class LanternsClient extends CharmClientModule {
     public void register() {
         BlockRenderLayerMap.INSTANCE.putBlock(Lanterns.GOLD_LANTERN, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(Lanterns.GOLD_SOUL_LANTERN, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(Lanterns.COPPER_LANTERN, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(Lanterns.COPPER_SOUL_LANTERN, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(Lanterns.BRONZE_LANTERN, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(Lanterns.BRONZE_SOUL_LANTERN, RenderLayer.getCutout());
     }
 }
