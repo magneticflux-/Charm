@@ -52,6 +52,7 @@
     "accessor.FireBlockAccessor",
     "accessor.GenerationSettingsAccessor",
     "accessor.GoalSelectorAccessor",
+    "accessor.GoatBrainAccessor",
     "accessor.ItemAccessor",
     "accessor.ItemEntityAccessor",
     "accessor.ItemTagsAccessor",
