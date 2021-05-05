@@ -5,6 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import svenhjol.charm.Charm;
@@ -12,18 +13,21 @@ import svenhjol.charm.base.CharmModule;
 import svenhjol.charm.base.enums.IVariantMaterial;
 import svenhjol.charm.base.enums.VanillaVariantMaterial;
 import svenhjol.charm.base.handler.RegistryHandler;
+import svenhjol.charm.base.helper.RegistryHelper;
 import svenhjol.charm.base.iface.Config;
 import svenhjol.charm.base.iface.Module;
 import svenhjol.charm.block.BookcaseBlock;
 import svenhjol.charm.blockentity.BookcaseBlockEntity;
 import svenhjol.charm.client.BookcasesClient;
+import svenhjol.charm.init.CharmAdvancements;
 import svenhjol.charm.screenhandler.BookcaseScreenHandler;
 
 import java.util.*;
 
-@Module(mod = Charm.MOD_ID, client = BookcasesClient.class, description = "Bookshelves that can hold up to 9 stacks of books and maps.")
+@Module(mod = Charm.MOD_ID, priority = 10, client = BookcasesClient.class, description = "Bookshelves that can hold up to 9 stacks of books and maps.")
 public class Bookcases extends CharmModule {
     public static final Identifier ID = new Identifier(Charm.MOD_ID, "bookcase");
+    public static final Identifier TRIGGER_ADDED_BOOK_TO_BOOKCASE = new Identifier(Charm.MOD_ID, "added_book_to_bookcase");
     public static final Map<IVariantMaterial, BookcaseBlock> BOOKCASE_BLOCKS = new HashMap<>();
 
     public static ScreenHandlerType<BookcaseScreenHandler> SCREEN_HANDLER;
@@ -62,7 +66,18 @@ public class Bookcases extends CharmModule {
         BLOCK_ENTITY = RegistryHandler.blockEntity(ID, BookcaseBlockEntity::new);
     }
 
+    public static BookcaseBlock registerBookcase(CharmModule module, IVariantMaterial material) {
+        BookcaseBlock bookcase = new BookcaseBlock(module, material);
+        BOOKCASE_BLOCKS.put(material, bookcase);
+        RegistryHelper.addBlocksToBlockEntity(BLOCK_ENTITY, bookcase);
+        return bookcase;
+    }
+
     public static boolean canContainItem(ItemStack stack) {
         return validItems.contains(stack.getItem());
+    }
+
+    public static void triggerAddedBookToBookcase(ServerPlayerEntity player) {
+        CharmAdvancements.ACTION_PERFORMED.trigger(player, TRIGGER_ADDED_BOOK_TO_BOOKCASE);
     }
 }

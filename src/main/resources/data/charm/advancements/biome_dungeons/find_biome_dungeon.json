@@ -1,0 +1,33 @@
+{
+  "parent": "charm:core/root",
+  "display": {
+    "icon": {
+      "item": "minecraft:spawner"
+    },
+    "title": {
+      "translate": "advancements.charm.find_biome_dungeon.title"
+    },
+    "description": {
+      "translate": "advancements.charm.find_biome_dungeon.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "found_biome_dungeon": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "location": {
+          "feature": "charm:dungeon"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "found_biome_dungeon"
+    ]
+  ]
+}

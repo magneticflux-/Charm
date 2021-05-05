@@ -7,17 +7,18 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import svenhjol.charm.Charm;
+import svenhjol.charm.base.handler.ModuleHandler;
 import svenhjol.charm.mixin.accessor.BufferBuilderStorageAccessor;
 import svenhjol.charm.mixin.accessor.MinecraftClientAccessor;
 import svenhjol.charm.mixin.accessor.RenderLayerAccessor;
 import svenhjol.charm.mixin.accessor.RenderPhaseAccessor;
-import svenhjol.charm.module.Core;
+import svenhjol.charm.module.ColoredGlints;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class ColoredGlintHandler {
-    public static final String GLINT_TAG = "charm_glint";
+    public static final String GLINT_NBT = "charm_glint";
 
     public static Map<String, Identifier> TEXTURES = new HashMap<>();
     public static Map<String, RenderLayer> GLINT = new HashMap<>();
@@ -52,7 +53,7 @@ public class ColoredGlintHandler {
         List<String> validColors = Arrays.stream(DyeColor.values()).map(DyeColor::asString).collect(Collectors.toList());
         validColors.add("rainbow");
 
-        defaultGlintColor = validColors.contains(Core.glintColor) ? Core.glintColor : DyeColor.PURPLE.asString();
+        defaultGlintColor = (ModuleHandler.enabled(ColoredGlints.class) && validColors.contains(ColoredGlints.glintColor)) ? ColoredGlints.glintColor : DyeColor.PURPLE.asString();
 
         hasInit = true;
     }
@@ -63,10 +64,10 @@ public class ColoredGlintHandler {
 
     public static String getStackColor(ItemStack stack) {
         if (stack != null && stack.hasTag()) {
-            NbtCompound tag = stack.getTag();
-            if (tag != null) {
-                if (tag.contains(GLINT_TAG))
-                    return tag.getString(GLINT_TAG);
+            NbtCompound nbt = stack.getTag();
+            if (nbt != null) {
+                if (nbt.contains(GLINT_NBT))
+                    return nbt.getString(GLINT_NBT);
             }
         }
 

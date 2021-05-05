@@ -6,18 +6,24 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.PatrolEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import svenhjol.charm.Charm;
 import svenhjol.charm.base.CharmModule;
 import svenhjol.charm.base.iface.Config;
 import svenhjol.charm.base.iface.Module;
 import svenhjol.charm.event.EntityDropsCallback;
+import svenhjol.charm.init.CharmAdvancements;
 import svenhjol.charm.item.RaidHornItem;
 
 @Module(mod = Charm.MOD_ID, description = "Raid horns are sometimes dropped from raid leaders and can be used to call off or start raids.")
 public class RaidHorns extends CharmModule {
     public static RaidHornItem RAID_HORN;
+
+    public static final Identifier TRIGGER_SUMMONED_PILLAGERS = new Identifier(Charm.MOD_ID, "summoned_pillagers");
+    public static final Identifier TRIGGER_CALLED_OFF_RAID = new Identifier(Charm.MOD_ID, "called_off_raid");
 
     public static double lootingBoost = 0.25D;
 
@@ -48,5 +54,13 @@ public class RaidHorns extends CharmModule {
         }
 
         return ActionResult.PASS;
+    }
+
+    public static void triggerSummoned(ServerPlayerEntity playerEntity) {
+        CharmAdvancements.ACTION_PERFORMED.trigger(playerEntity, TRIGGER_SUMMONED_PILLAGERS);
+    }
+
+    public static void triggerCalledOff(ServerPlayerEntity playerEntity) {
+        CharmAdvancements.ACTION_PERFORMED.trigger(playerEntity, TRIGGER_CALLED_OFF_RAID);
     }
 }

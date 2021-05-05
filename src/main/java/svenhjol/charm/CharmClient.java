@@ -2,8 +2,8 @@ package svenhjol.charm;
 
 import net.fabricmc.api.ClientModInitializer;
 import svenhjol.charm.base.CharmClientLoader;
-import svenhjol.charm.base.handler.ClientHandler;
 import svenhjol.charm.base.handler.LogHandler;
+import svenhjol.charm.init.CharmClientParticles;
 
 public class CharmClient implements ClientModInitializer {
     public static LogHandler LOG = new LogHandler("CharmClient");
@@ -11,5 +11,7 @@ public class CharmClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         new CharmClientLoader(Charm.MOD_ID);
+
+        CharmClientParticles.init();
     }
 }

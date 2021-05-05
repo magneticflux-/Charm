@@ -29,9 +29,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
-import svenhjol.charm.base.CharmSounds;
+import svenhjol.charm.init.CharmSounds;
 import svenhjol.charm.base.helper.ItemNBTHelper;
-import svenhjol.charm.module.Atlas;
+import svenhjol.charm.module.Atlases;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -56,7 +56,7 @@ public class AtlasInventory implements NamedScreenHandlerFactory, Inventory {
 
     public AtlasInventory(ItemStack atlas) {
         this.atlas = atlas;
-        this.scale = Atlas.defaultScale;
+        this.scale = Atlases.defaultScale;
         this.diameter = 128;
         this.emptyMaps = DefaultedList.ofSize(EMPTY_MAP_SLOTS, ItemStack.EMPTY);
         this.mapInfos = HashBasedTable.create();
@@ -71,7 +71,7 @@ public class AtlasInventory implements NamedScreenHandlerFactory, Inventory {
     }
 
     private void load() {
-        scale = ItemNBTHelper.getInt(atlas, SCALE, Atlas.defaultScale);
+        scale = ItemNBTHelper.getInt(atlas, SCALE, Atlases.defaultScale);
         diameter = 128 * (1 << scale);
         Inventories.readNbt(ItemNBTHelper.getCompound(atlas, EMPTY_MAPS), emptyMaps);
         NbtList listNBT = ItemNBTHelper.getList(atlas, FILLED_MAPS);
@@ -106,7 +106,7 @@ public class AtlasInventory implements NamedScreenHandlerFactory, Inventory {
         if (mapId == null) return null;
 
         MapState mapData = FilledMapItem.getMapState(mapId, world);
-        return mapData != null ? new MapInfo(mapData.xCenter, mapData.zCenter, FilledMapItem.getMapId(map), map, mapData.dimension) : null;
+        return mapData != null ? new MapInfo(mapData.centerX, mapData.centerZ, FilledMapItem.getMapId(map), map, mapData.dimension) : null;
     }
 
     public boolean updateActiveMap(ServerPlayerEntity player) {
@@ -117,7 +117,7 @@ public class AtlasInventory implements NamedScreenHandlerFactory, Inventory {
             madeNewMap = activeMap != null;
         }
         if (activeMap != null) {
-            Atlas.sendMapToClient(player, activeMap.map, false);
+            Atlases.sendMapToClient(player, activeMap.map, false);
             ItemNBTHelper.setInt(atlas, ACTIVE_MAP, activeMap.id);
         } else {
             ItemNBTHelper.setInt(atlas, ACTIVE_MAP, -1);
@@ -255,7 +255,7 @@ public class AtlasInventory implements NamedScreenHandlerFactory, Inventory {
     public boolean canPlayerUse(@Nonnull PlayerEntity player) {
         for (Hand hand : Hand.values()) {
             ItemStack heldItem = player.getStackInHand(hand);
-            if (heldItem.getItem() == Atlas.ATLAS_ITEM && Objects.equals(ItemNBTHelper.getUuid(atlas, ID), ItemNBTHelper.getUuid(heldItem, ID))) return true;
+            if (heldItem.getItem() == Atlases.ATLAS_ITEM && Objects.equals(ItemNBTHelper.getUuid(atlas, ID), ItemNBTHelper.getUuid(heldItem, ID))) return true;
         }
         return false;
     }
@@ -324,7 +324,7 @@ public class AtlasInventory implements NamedScreenHandlerFactory, Inventory {
 
         public static MapInfo readFrom(NbtCompound nbt) {
             return new MapInfo(nbt.getInt(X), nbt.getInt(Z), nbt.getInt(ID), ItemStack.fromNbt(nbt.getCompound(MAP)),
-                DimensionType.worldFromDimensionTag(new Dynamic<>(NbtOps.INSTANCE, nbt.get(DIMENSION))).result().orElse(World.OVERWORLD));
+                DimensionType.worldFromDimensionNbt(new Dynamic<>(NbtOps.INSTANCE, nbt.get(DIMENSION))).result().orElse(World.OVERWORLD));
         }
 
         public void writeTo(NbtCompound nbt) {

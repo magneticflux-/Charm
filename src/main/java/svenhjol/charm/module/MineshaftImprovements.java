@@ -136,10 +136,15 @@ public class MineshaftImprovements extends CharmModule {
                 if (x == 1 && rand.nextFloat() < 0.08F)
                     continue; // rarely, spawn some block in the middle of the corridor
                 for (int z = 0; z < bz; z++) {
-                    if (validFloorBlock(piece, world, x, 0, z, box) && rand.nextFloat() < floorBlockChance) {
+                    boolean validCeiling = ((MineshaftGeneratorAccessor) piece).invokeIsSolidCeiling(world, box, x, x, 2, z);
+                    boolean validFloor = validFloorBlock(piece, world, x, 0, z, box);
+
+                    if (!validCeiling)
+                        continue;
+
+                    if (validFloor && rand.nextFloat() < floorBlockChance) {
                         ((StructurePieceAccessor)piece).callAddBlock(world, getFloorBlock(rand), x, 0, z, box);
-                    }
-                    if (validCeilingBlock(piece, world, x, 2, z, box) && rand.nextFloat() < ceilingBlockChance) {
+                    } else if (rand.nextFloat() < ceilingBlockChance) {
                         ((StructurePieceAccessor)piece).callAddBlock(world, getCeilingBlock(rand), x, 2, z, box);
                     }
                 }
@@ -235,16 +240,6 @@ public class MineshaftImprovements extends CharmModule {
                 }
             }
         }
-    }
-
-    private static boolean validCeilingBlock(StructurePiece piece, ServerWorldAccess world, int x, int y, int z, BlockBox box) {
-        BlockPos blockpos = new BlockPos(
-            ((StructurePieceAccessor)piece).callApplyXTransform(x, z),
-            ((StructurePieceAccessor)piece).callApplyYTransform(y),
-            ((StructurePieceAccessor)piece).callApplyZTransform(x, z));
-        return box.contains(blockpos)
-            && world.getBlockState(blockpos.up()).isOpaque()
-            && world.isAir(blockpos.down());
     }
 
     private static boolean validFloorBlock(StructurePiece piece, ServerWorldAccess world, int x, int y, int z, BlockBox box) {

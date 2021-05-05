@@ -1,6 +1,8 @@
 package svenhjol.charm.module;
 
-import net.minecraft.util.DyeColor;
+import net.minecraft.network.ClientConnection;
+import net.minecraft.server.PlayerManager;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import svenhjol.charm.Charm;
 import svenhjol.charm.base.CharmModule;
@@ -8,27 +10,30 @@ import svenhjol.charm.base.helper.ModHelper;
 import svenhjol.charm.base.iface.Config;
 import svenhjol.charm.base.iface.Module;
 import svenhjol.charm.client.CoreClient;
+import svenhjol.charm.event.ServerJoinCallback;
+import svenhjol.charm.init.CharmAdvancements;
 
 @Module(mod = Charm.MOD_ID, client = CoreClient.class, alwaysEnabled = true, description = "Core configuration values.")
 public class Core extends CharmModule {
+    public static final Identifier ADVANCEMENT_PLAYER_JOINED = new Identifier(Charm.MOD_ID, "player_joined");
     public static final Identifier MSG_SERVER_OPEN_INVENTORY = new Identifier(Charm.MOD_ID, "server_open_inventory");
 
     @Config(name = "Debug mode", description = "If true, routes additional debug messages into the standard game log.")
     public static boolean debug = false;
 
-    @Config(name = "Inventory button return", description = "If inventory crafting or inventory ender chest modules are enabled, pressing escape or inventory key returns you to the inventory rather than closing the window.")
-    public static boolean inventoryButtonReturn = false;
-
-    @Config(name = "Enchantment glint override", description = "If true, replaces vanilla glint color rendering with Charm's, allowing for multiple enchantment glint colors.")
-    public static boolean overrideGlint = true;
-
-    @Config(name = "Enchantment glint color", description = "Set the default glint color for all enchanted items.  Requires 'Enchantment glint override' to be true.")
-    public static String glintColor = DyeColor.PURPLE.getName();
+    @Config(name = "Advancements", description = "If true, Charm will add its own advancement tree.")
+    public static boolean advancements = true;
 
     public static boolean BETTER_END = false;
 
     @Override
-    public void init() {
+    public void register() {
+        ServerJoinCallback.EVENT.register(this::handleServerJoin);
+
         BETTER_END = ModHelper.isLoaded("betterend");
+    }
+
+    private void handleServerJoin(PlayerManager playerManager, ClientConnection connection, ServerPlayerEntity player) {
+        CharmAdvancements.ACTION_PERFORMED.trigger(player, ADVANCEMENT_PLAYER_JOINED);
     }
 }

@@ -14,13 +14,13 @@ public class MapHelper {
         // generate the map
         ItemStack stack = FilledMapItem.createMap(world, pos.getX(), pos.getZ(), (byte) 2, true, true);
         FilledMapItem.fillExplorationMap(world, stack);
-        MapState.addDecorationsTag(stack, pos, "+", targetType);
+        MapState.addDecorationsNbt(stack, pos, "+", targetType);
         stack.setCustomName(mapName);
 
         // set map color based on structure
-        NbtCompound tag = ItemNBTHelper.getCompound(stack, "display");
-        tag.putInt("MapColor", color);
-        ItemNBTHelper.setCompound(stack, "display", tag);
+        NbtCompound nbt = ItemNBTHelper.getCompound(stack, "display");
+        nbt.putInt("MapColor", color);
+        ItemNBTHelper.setCompound(stack, "display", nbt);
 
         return stack;
     }
