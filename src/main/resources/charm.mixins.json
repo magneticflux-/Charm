@@ -101,6 +101,8 @@
     "parrots_stay_on_shoulder.KeepShoulderEntitiesMixin",
     "quadrants.RotateBlockBeforePlaceMixin",
     "remove_potion_glint.CheckPotionHasGlintMixin",
+    "respawn_in_nether.ChangeRespawnDimension",
+    "respawn_in_nether.FindSpaceForPlayer",
     "snow_storms.PlaceMoreSnowMixin",
     "snow_storms.PreventSnowMeltingMixin",
     "snow_storms.SetEntityFreezingMixin",
