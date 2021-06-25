@@ -25,6 +25,7 @@ import java.util.UUID;
 public class PotionOfRecall extends CharmModule {
     public static RecallEffect RECALL_EFFECT;
     public static CharmPotion RECALL_POTION;
+    public static CharmPotion LONG_RECALL_POTION;
 
     private static RecallSavedData savedData;
 
@@ -32,6 +33,7 @@ public class PotionOfRecall extends CharmModule {
     public void register() {
         RECALL_EFFECT = new RecallEffect(this);
         RECALL_POTION = new RecallPotion(this);
+        LONG_RECALL_POTION = new LongRecallPotion(this);
     }
 
     @Override
@@ -73,7 +75,7 @@ public class PotionOfRecall extends CharmModule {
 
                 if (destLevel == serverLevel) {
                     serverLevel.playSound(null, entity.blockPosition(), SoundEvents.CHORUS_FRUIT_TELEPORT, SoundSource.PLAYERS, 1.0F, 0.94F);
-                    entity.teleportToWithTicket(start.getX(), start.getY(), start.getZ());
+                    entity.teleportToWithTicket(start.getX() + 0.5D, start.getY(), start.getZ() + 0.5D);
                     serverLevel.playSound(null, start, SoundEvents.CHORUS_FRUIT_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.06F);
                 } else {
                     entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 7 * 20));

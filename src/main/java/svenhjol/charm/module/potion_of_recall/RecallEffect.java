@@ -6,6 +6,6 @@ import svenhjol.charm.potion.CharmStatusEffect;
 
 public class RecallEffect extends CharmStatusEffect {
     protected RecallEffect(CharmModule module) {
-        super(module, "recall", MobEffectCategory.BENEFICIAL, 0xEF20FF);
+        super(module, "recall", MobEffectCategory.BENEFICIAL, 0x9050CF);
     }
 }
