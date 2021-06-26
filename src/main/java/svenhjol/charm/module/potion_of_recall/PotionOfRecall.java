@@ -6,12 +6,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import svenhjol.charm.Charm;
 import svenhjol.charm.annotation.Module;
+import svenhjol.charm.event.EntityKillCallback;
 import svenhjol.charm.event.EntityTickCallback;
 import svenhjol.charm.event.ServerWorldInitCallback;
 import svenhjol.charm.helper.DimensionHelper;
@@ -39,6 +41,7 @@ public class PotionOfRecall extends CharmModule {
     @Override
     public void init() {
         EntityTickCallback.EVENT.register(this::handleEntityTick);
+        EntityKillCallback.EVENT.register(this::handleEntityKill);
         ServerWorldInitCallback.EVENT.register(this::loadRecallSavedData);
     }
 
@@ -48,6 +51,13 @@ public class PotionOfRecall extends CharmModule {
 
         getSavedData().ifPresent(data -> {
             UUID uuid = entity.getUUID();
+
+            if (!entity.isAlive() && (data.dimensions.containsKey(uuid) || data.starts.containsKey(uuid))) {
+                data.dimensions.remove(uuid);
+                data.starts.remove(uuid);
+                data.setDirty();
+                return;
+            }
 
             if (!entity.hasEffect(RECALL_EFFECT)) {
                 if (!data.dimensions.containsKey(uuid) || !data.starts.containsKey(uuid))
@@ -90,6 +100,15 @@ public class PotionOfRecall extends CharmModule {
                 data.starts.put(uuid, entity.blockPosition());
                 data.setDirty();
             }
+        });
+    }
+
+    private void handleEntityKill(LivingEntity entity, DamageSource source) {
+        getSavedData().ifPresent(data -> {
+            UUID uuid = entity.getUUID();
+            data.dimensions.remove(uuid);
+            data.starts.remove(uuid);
+            data.setDirty();
         });
     }
 
