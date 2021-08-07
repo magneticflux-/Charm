@@ -6,7 +6,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import org.apache.commons.lang3.StringUtils;
@@ -66,7 +65,6 @@ public class StringHelper {
         if (!languageStrings.containsKey(modId)) {
             // try and parse the mod's en_us language file into a json object
             FabricLoader.getInstance().getModContainer(modId).ifPresent(container -> {
-                ModMetadata metadata = container.getMetadata();
                 Path path = container.getPath("assets/" + modId + "/lang/en_us.json");
 
                 try (JsonReader reader = new JsonReader(new InputStreamReader(Files.newInputStream(path), StandardCharsets.UTF_8))) {

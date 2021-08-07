@@ -1,16 +1,16 @@
 package svenhjol.charm.helper;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -20,11 +20,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * @version 1.0.0-charm
+ */
 @SuppressWarnings("unused")
 public class ClientHelper {
     public static Options gameOptions;
     public static Font textRenderer;
-    public static IconRenderer iconRenderer;
     public static BlockColors blockColors;
     public static Map<ModelLayerLocation, ModelPart> ENTITY_MODEL_LAYERS = new HashMap<>();
 
@@ -48,11 +50,18 @@ public class ClientHelper {
         return Optional.ofNullable(Minecraft.getInstance());
     }
 
-    public static Optional<Level> getWorld() {
+    public static Optional<Level> getLevel() {
         if (getClient().isEmpty())
             return Optional.empty();
 
         return Optional.ofNullable(getClient().get().level);
+    }
+
+    public static Optional<ResourceKey<Level>> getLevelKey() {
+        if (getClient().isEmpty() || getLevel().isEmpty())
+            return Optional.empty();
+
+        return Optional.ofNullable(getLevel().get().dimension());
     }
 
     public static Optional<Player> getPlayer() {
@@ -82,13 +91,6 @@ public class ClientHelper {
         return Optional.empty();
     }
 
-    public static IconRenderer getIconRenderer() {
-        if (iconRenderer == null)
-            iconRenderer = new IconRenderer();
-
-        return iconRenderer;
-    }
-
     public static Optional<Options> getGameOptions() {
         if (getClient().isPresent()) {
             if (gameOptions == null)
@@ -99,10 +101,13 @@ public class ClientHelper {
         return Optional.empty();
     }
 
-    public static class IconRenderer extends GuiComponent {
-        public void renderGuiIcon(PoseStack pose, int drawX, int drawY, int offsetX, int offsetY, int sizeX, int sizeY) {
-            RenderSystem.setShaderTexture(0, GuiComponent.GUI_ICONS_LOCATION);
-            this.blit(pose, drawX, drawY, offsetX, offsetY, sizeX, sizeY);
-        }
+    public static Optional<ItemRenderer> getItemRenderer() {
+        if (getClient().isEmpty()) return Optional.empty();
+        return Optional.ofNullable(getClient().get().getItemRenderer());
+    }
+
+    public static Optional<TextureManager> getTextureManager() {
+        if (getClient().isEmpty()) return Optional.empty();
+        return Optional.ofNullable(getClient().get().getTextureManager());
     }
 }

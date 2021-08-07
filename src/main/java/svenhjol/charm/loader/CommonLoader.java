@@ -11,10 +11,13 @@ import svenhjol.charm.module.core.Core;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+@SuppressWarnings({"unused", "unchecked"})
 public class CommonLoader<T extends CharmModule> extends ModuleLoader<T> {
     private static final Map<ResourceLocation, CharmModule> ALL_MODULES = new HashMap<>();
+    private final Map<Class<? extends T>, T> MODULES_BY_CLASS = new HashMap<>();
 
     public CommonLoader(String modId, String basePackage) {
         super(modId, basePackage);
@@ -25,7 +28,10 @@ public class CommonLoader<T extends CharmModule> extends ModuleLoader<T> {
         super.register();
 
         // after register step, add all modules to the static
-        getModules().forEach(module -> ALL_MODULES.put(module.getId(), module));
+        getModules().forEach(module -> {
+            ALL_MODULES.put(module.getId(), module);
+            MODULES_BY_CLASS.put((Class<? extends T>) module.getClass(), module);
+        });
     }
 
     @Override
@@ -73,6 +79,10 @@ public class CommonLoader<T extends CharmModule> extends ModuleLoader<T> {
         ConfigHelper.applyConfig(toml, modules);
         modules.forEach(module -> module.setEnabled(!ConfigHelper.isModuleDisabled(toml, module.getName())));
         ConfigHelper.writeConfig(getModId(), modules);
+    }
+
+    public Optional<T> getModule(Class<? extends T> clazz) {
+        return Optional.ofNullable(MODULES_BY_CLASS.get(clazz));
     }
 
     public static Map<ResourceLocation, CharmModule> getAllModules() {

@@ -1,7 +1,7 @@
 package svenhjol.charm;
 
 import net.fabricmc.api.ModInitializer;
-import svenhjol.charm.event.LoadServerFinishCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import svenhjol.charm.init.*;
 import svenhjol.charm.loader.CharmModule;
 import svenhjol.charm.loader.CommonLoader;
@@ -15,10 +15,10 @@ public class Charm implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        initCharm();
+        init();
     }
 
-    public static void initCharm() {
+    public static void init() {
         if (hasStartedCharm) return;
 
         CharmLog.init();
@@ -30,7 +30,7 @@ public class Charm implements ModInitializer {
         CharmBiomes.init();
         CharmAdvancements.init();
 
-        LoadServerFinishCallback.EVENT.register(server
+        ServerLifecycleEvents.SERVER_STARTING.register(server
             -> CharmDecorations.init());
 
         LOADER.init();
