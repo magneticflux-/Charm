@@ -1,5 +1,51 @@
 # Changelog
 
+### 3.3.3
+* Signs are now editable in the nether
+* Anvils properly check for amethyst in second slot
+* Copper rail color adjusted to match copper ingots more closely (Coranthes)
+* Fixes to custom village structure processors (TelepathicGrunt)
+
+### 3.3.2
+* Change debug early loading to fix compatibility (e.g. Ferritecore)
+
+### 3.3.1
+* Disable extract enchantments when grindenchantments mod is present. svenhjol/Charm#630
+* Disable grindable horse armor when grindenchantments mod is present.  svenhjol/Charm#630
+* Don't translate advancements on client side. svenhjol/Charm#629
+* Fix incorrect dungeon build name.  svenhjol/Charm#615
+* Fix for bat bucket glowing effect duration, probably
+* Tweaked server side translation of charm items and advancements
+
+### 3.3.0
+* Reworked module loader. **Some minor configuration keys have changed**
+* Reworked recipe and advancement filtering
+* Fix Potion of Hogsbane working intermittently
+* Fix advancement titles not working on server side
+* Fix cooking pot renderer tick speed and item icon problems
+* Simplified Music Improvements feature
+* Updated colored bundle graphics
+* Changing enchantment color on an anvil has now had its XP cost increased from 0 to 1 level
+* Added hunger and saturation icons to mixed stew tooltips
+* Added recipe for snowballs from snow blocks
+* Added ModMenu and Cloth Config support
+* Added BundleSorting, use scrollwheel while hovering to rotate the order of contents
+* Added preliminary API for non-Charm-based mods
+
+### 3.2.3
+* Restored missing planks tag. svenhjol/Charm#606
+* Translation update provided by <https://github.com/SiongSng>.  svenhjol/Charm#607
+* Add compatibility tags for copper and nether nuggets. svenhjol/Charm#608
+* Minor reduction of spawn chance of bookcases and storage blocks in custom structures
+
+### 3.2.2
+* Fix door check crash.  svenhjol/Charm#603
+
+### 3.2.1
+* Fix broken anvil enchantments.  svenhjol/Charm#601
+* Fix neighboring door not detecting powered state.  svenhjol/Charm#602
+* Netherite bars, chains and lanterns are now explosion resistant
+
 ### 3.2.0
 * Fix superflat structure registration error.  svenhjol/Charm#593
 * Fix incorrect totem spawn height when mounted.  svenhjol/Charm#599
